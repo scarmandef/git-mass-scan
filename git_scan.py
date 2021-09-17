@@ -39,7 +39,7 @@ def env(file):
     for site in files:
         site = site.rstrip()
         try:
-            env = requests.get(site + '/.env', headers=header)
+            env = requests.get(site + '/.env', headers=header, timeout=10)
             status_env = BeautifulSoup(env.text, 'html.parser')
             response_env = status_env.text[:16]
             if content_env in response_env:
@@ -47,22 +47,24 @@ def env(file):
                 print(site, VERDE + '[+] Env found ! [+]' + BRANCO)
             else:
                 print(site, VERMELHO + '[-] Env not found ! [-]' + BRANCO)
-        except (requests.exceptions.MissingSchema, requests.exceptions.ConnectionError) as e:
+        except (requests.exceptions.MissingSchema, requests.exceptions.ConnectionError, requests.exceptions.ReadTimeout) as e:
             print(site, AMARELO + '[-] Invalid url or site down [-]' + BRANCO)
+
 
 def git(file):
     for site in files:
         site = site.rstrip()
         try:
-            git = requests.get(site + '/.git/HEAD', headers=header)
+            git = requests.get(site + '/.git/HEAD', headers=header, timeout=10)
             response_git = git.text
             if content_git in response_git:
                 resultado.writelines(site + ' - GIT ' + '\n')
                 print(site, VERDE + '[+] Git found ! [+]' + BRANCO)
             else:
                 print(site, VERMELHO + '[-] Git not found ! [-]' + BRANCO)
-        except (requests.exceptions.MissingSchema, requests.exceptions.ConnectionError) as e:
+        except (requests.exceptions.MissingSchema, requests.exceptions.ConnectionError, requests.exceptions.ReadTimeout) as e:
             print(site, AMARELO + '[-] Invalid url or site down [-]' + BRANCO)
+
 
 if funcao == 'git':
      git(hosts)
