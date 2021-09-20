@@ -35,6 +35,9 @@ header = {'User-Agent':
             'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:88.0) Gecko/20100101 Firefox/88.0'
           }
 
+erros = ''
+
+
 def env(file):
     for site in files:
         site = site.rstrip()
@@ -47,7 +50,7 @@ def env(file):
                 print(site, VERDE + '[+] Env found ! [+]' + BRANCO)
             else:
                 print(site, VERMELHO + '[-] Env not found ! [-]' + BRANCO)
-        except (requests.exceptions.MissingSchema, requests.exceptions.ConnectionError, requests.exceptions.ReadTimeout) as e:
+        except (requests.exceptions.MissingSchema, requests.exceptions.ConnectionError, requests.exceptions.ReadTimeout,requests.exceptions.TooManyRedirects,requests.exceptions.InvalidSchema,requests.exceptions.InvalidURL) as e:
             print(site, AMARELO + '[-] Invalid url or site down [-]' + BRANCO)
 
 
@@ -62,7 +65,7 @@ def git(file):
                 print(site, VERDE + '[+] Git found ! [+]' + BRANCO)
             else:
                 print(site, VERMELHO + '[-] Git not found ! [-]' + BRANCO)
-        except (requests.exceptions.MissingSchema, requests.exceptions.ConnectionError, requests.exceptions.ReadTimeout) as e:
+        except (requests.exceptions.MissingSchema, requests.exceptions.ConnectionError, requests.exceptions.ReadTimeout,requests.exceptions.TooManyRedirects,requests.exceptions.InvalidSchema,requests.exceptions.InvalidURL) as e:
             print(site, AMARELO + '[-] Invalid url or site down [-]' + BRANCO)
 
 
